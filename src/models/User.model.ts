@@ -21,9 +21,21 @@ const UserSchema = new mongoose.Schema(
 	{ timestamps: true }
 )
 
-UserSchema.path('email').validate(email => {
+UserSchema.path('email').validate((email: string) => {
 	return isEmail(email)
 }, 'Email is invalid')
+
+UserSchema.methods.toJSON = function() {
+	const userObject: IUserModel = this.toObject()
+	delete userObject.__v
+	delete userObject.password
+
+	const id = userObject._id
+	delete userObject._id
+	userObject.id = id
+
+	return userObject
+}
 
 UserSchema.methods.generateAuthToken = async function() {
 	const user: IUserModel = this
@@ -38,7 +50,7 @@ UserSchema.pre('save', function(this: IUserModel, next) {
 	const saltCycles = 8
 	if (user.isModified('password')) {
 		if (user.password.length < 8)
-			throw Error('Password must be atleast 8 characters')
+			throw Error('Password must be at least 8 characters')
 		user.password = hashSync(user.password, saltCycles)
 	}
 
