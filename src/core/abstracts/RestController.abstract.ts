@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 import { Document, Model } from 'mongoose'
 
-abstract class ControllerAbstract {
+abstract class RestControllerAbstract {
 	protected abstract model: Model<Document>
 	public abstract create(req: Request, res: Response): void
 	public abstract getAll(req: Request, res: Response): void
@@ -10,4 +10,4 @@ abstract class ControllerAbstract {
 	public abstract delete(req: Request, res: Response): void
 }
 
-export default ControllerAbstract
+export default RestControllerAbstract

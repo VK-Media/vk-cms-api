@@ -1,5 +1,5 @@
-import CoreRoutes from '../core/routes/Core.routes'
+import RestRoutes from '../core/routes/Rest.routes'
 
-class UserRoutes extends CoreRoutes {}
+class UserRoutes extends RestRoutes {}
 
 export default UserRoutes

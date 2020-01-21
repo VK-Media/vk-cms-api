@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import { Document, Model } from 'mongoose'
 
-import ControllerAbstract from '../abstracts/Controller.abstract'
+import RestControllerAbstract from '../abstracts/RestController.abstract'
 
-class CoreController extends ControllerAbstract {
+class RestController extends RestControllerAbstract {
 	protected model: Model<Document>
 
 	constructor(model: Model<Document>) {
@@ -79,4 +79,4 @@ class CoreController extends ControllerAbstract {
 	}
 }
 
-export default CoreController
+export default RestController

@@ -1,13 +1,13 @@
 import * as express from 'express'
 
-import ControllerAbstract from '../abstracts/Controller.abstract'
-import RoutesAbstract from '../abstracts/Routes.abstract'
+import RestControllerAbstract from '../abstracts/RestController.abstract'
+import RestRoutesAbstract from '../abstracts/RestRoutes.abstract'
 
-class CoreRoutes extends RoutesAbstract {
-	protected controller: ControllerAbstract
+class RestRoutes extends RestRoutesAbstract {
+	protected controller: RestControllerAbstract
 	protected routeKey: string
 
-	constructor(controller: ControllerAbstract, routeKey: string) {
+	constructor(controller: RestControllerAbstract, routeKey: string) {
 		super()
 
 		this.controller = controller
@@ -26,4 +26,4 @@ class CoreRoutes extends RoutesAbstract {
 	}
 }
 
-export default CoreRoutes
+export default RestRoutes

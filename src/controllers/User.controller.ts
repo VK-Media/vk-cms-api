@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 
-import CoreController from '../core/controllers/Core.controller'
+import RestController from '../core/controllers/Rest.controller'
 import { UserModel } from '../models'
 
-class UserController extends CoreController {
+class UserController extends RestController {
 	protected model = UserModel
 
 	public create = async (req: Request, res: Response) => {
