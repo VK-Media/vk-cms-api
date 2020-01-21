@@ -36,9 +36,16 @@ class RestController extends RestControllerAbstract {
 
 	public getById = async (req: Request, res: Response) => {
 		try {
-			const object = await this.model.findById(req.params.id)
+			const id = req.params.id
+			const object = await this.model.findById(id)
 
-			res.send(object)
+			if (object) {
+				res.send(object)
+			} else {
+				res.status(404).send({
+					error: `No object with this the provided id: ${id}`
+				})
+			}
 		} catch (error) {
 			res.status(400).send({ error: error.message })
 		}

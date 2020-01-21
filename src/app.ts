@@ -2,9 +2,9 @@ import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import { connect } from 'mongoose'
 
-import { UserController } from './controllers'
-import { UserModel } from './models'
-import { UserRoutes } from './routes'
+import { CollectionController, UserController } from './controllers'
+import { CollectionModel, UserModel } from './models'
+import { CollectionRoutes, UserRoutes } from './routes'
 
 class App {
 	public app: express.Application
@@ -45,8 +45,13 @@ class App {
 			new UserController(UserModel),
 			'users'
 		)
+		const collectionRoutes: CollectionRoutes = new CollectionRoutes(
+			new CollectionController(CollectionModel),
+			'collections'
+		)
 
 		userRoutes.routes(this.app)
+		collectionRoutes.routes(this.app)
 	}
 }
 
