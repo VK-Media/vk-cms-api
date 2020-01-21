@@ -1,18 +1,20 @@
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import { connect } from 'mongoose'
+
+import { UserController } from './controllers'
+import { UserModel } from './models'
 import { UserRoutes } from './routes'
 
 class App {
 	public app: express.Application
-	public mongoUrl: string = process.env.MONGODB_URL
-	public userRoutes: UserRoutes = new UserRoutes()
+	private mongoUrl: string = process.env.MONGODB_URL
 
 	constructor() {
 		this.app = express()
 		this.config()
 		this.mongoSetup()
-		this.userRoutes.routes(this.app)
+		this.initializeRoutes()
 	}
 
 	private config(): void {
@@ -36,6 +38,15 @@ class App {
 			useCreateIndex: true,
 			useFindAndModify: false
 		})
+	}
+
+	private initializeRoutes(): void {
+		const userRoutes: UserRoutes = new UserRoutes(
+			new UserController(UserModel),
+			'users'
+		)
+
+		userRoutes.routes(this.app)
 	}
 }
 
