@@ -1,4 +1,4 @@
-import RestRoutes from '../core/routes/Rest.routes'
+import RestRoutes from '../../rest/routes/Rest.routes'
 
 class UserRoutes extends RestRoutes {}
 

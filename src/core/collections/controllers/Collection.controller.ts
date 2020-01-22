@@ -1,4 +1,4 @@
-import RestController from '../core/controllers/Rest.controller'
+import RestController from '../../rest/controllers/Rest.controller'
 
 class CollectionController extends RestController {}
 

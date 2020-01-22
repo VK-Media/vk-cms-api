@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
 
-import RestController from '../core/controllers/Rest.controller'
-import { UserModel } from '../models'
+import RestController from '../../rest/controllers/Rest.controller'
+import UserModel from '../models/User.model'
 
 class UserController extends RestController {
 	protected model = UserModel

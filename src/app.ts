@@ -2,9 +2,13 @@ import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import { connect } from 'mongoose'
 
-import { CollectionController, UserController } from './controllers'
-import { CollectionModel, UserModel } from './models'
-import { CollectionRoutes, UserRoutes } from './routes'
+import CollectionController from './core/collections/controllers/Collection.controller'
+import CollectionModel from './core/collections/models/Collection.model'
+import CollectionRoutes from './core/collections/routes/Collection.routes'
+import { getValidExtensions } from './core/extensions/utils/extension.util'
+import UserController from './core/users/controllers/User.controller'
+import UserModel from './core/users/models/User.model'
+import UserRoutes from './core/users/routes/User.routes'
 
 class App {
 	public app: express.Application
@@ -15,6 +19,7 @@ class App {
 		this.config()
 		this.mongoSetup()
 		this.initializeRoutes()
+		this.loadExtensions()
 	}
 
 	private config(): void {
@@ -52,6 +57,10 @@ class App {
 
 		userRoutes.routes(this.app)
 		collectionRoutes.routes(this.app)
+	}
+
+	private loadExtensions(): void {
+		const validExtensions = getValidExtensions()
 	}
 }
 
