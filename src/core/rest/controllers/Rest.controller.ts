@@ -6,12 +6,6 @@ import RestControllerAbstract from '../abstracts/RestController.abstract'
 class RestController extends RestControllerAbstract {
 	protected model: Model<Document>
 
-	constructor(model: Model<Document>) {
-		super()
-
-		this.model = model
-	}
-
 	public create = async (req: Request, res: Response) => {
 		try {
 			const object = new this.model(req.body)

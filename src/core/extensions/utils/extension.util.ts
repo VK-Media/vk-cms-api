@@ -21,7 +21,7 @@ export const getValidExtensions = (): string[] => {
 				)
 
 				if (isValidConfiguration(configuration)) {
-					validExtensions.push(configuration.name)
+					validExtensions.push(extensionPath)
 				}
 			}
 		}
@@ -48,4 +48,23 @@ export const isValidConfiguration = (
 	}
 
 	return false
+}
+
+export const getExtensionRouteFiles = (
+	extensionFolderName: string
+): string[] => {
+	const routeFiles = []
+	const routesFolder = `${extensionFolderName}/routes/`
+	const isDirectory =
+		fs.existsSync(routesFolder) && fs.lstatSync(routesFolder).isDirectory()
+
+	if (isDirectory) {
+		fs.readdirSync(routesFolder).forEach(routeFileName => {
+			if (routeFileName.includes('.routes.ts')) {
+				routeFiles.push(routesFolder + routeFileName)
+			}
+		})
+	}
+
+	return routeFiles
 }

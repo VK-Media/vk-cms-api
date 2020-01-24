@@ -20,3 +20,6 @@ dist/
 # editor/ide
 .vscode
 .idea
+
+# extensions
+src/extensions/

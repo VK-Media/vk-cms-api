@@ -7,14 +7,15 @@ class RestRoutes extends RestRoutesAbstract {
 	protected controller: RestControllerAbstract
 	protected routeKey: string
 
-	constructor(controller: RestControllerAbstract, routeKey: string) {
+	constructor(routeKey: string) {
 		super()
 
-		this.controller = controller
 		this.routeKey = routeKey
 	}
 
 	public routes(app: express.Application): void {
+		this.additionalRoutes(app)
+
 		app.route(`/${this.routeKey}`)
 			.get(this.controller.getAll)
 			.post(this.controller.create)
