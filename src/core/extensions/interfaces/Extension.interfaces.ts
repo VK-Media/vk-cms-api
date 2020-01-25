@@ -6,3 +6,10 @@ export interface IExtensionModel extends Document {
 	version: string
 	enabled: boolean
 }
+
+export interface IExtensionConfigurationFile {
+	name: string
+	key: string
+	version: string
+	description?: string
+}

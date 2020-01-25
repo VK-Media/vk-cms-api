@@ -2,12 +2,12 @@ import * as express from 'express'
 
 import {
 	getExtensionRouteFiles,
-	getValidExtensions
+	getValidExtensionsPaths
 } from '../utils/extension.util'
 
 class ExtensionLoaderController {
 	public loadRoutesFromValidExtensions(app: express.Application): void {
-		const validExtensions = getValidExtensions()
+		const validExtensions = getValidExtensionsPaths()
 
 		validExtensions.forEach(extensionPath => {
 			const routeFiles = getExtensionRouteFiles(extensionPath)

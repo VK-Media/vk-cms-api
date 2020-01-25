@@ -1,12 +1,11 @@
 import * as fs from 'fs'
 
-export const getValidExtensions = (): string[] => {
-	const validExtensions = []
-	const extensionsRootFolderPath = './src/extensions/'
-	const extensionFolders = fs.readdirSync(extensionsRootFolderPath)
+import { IExtensionConfigurationFile } from '../interfaces/Extension.interfaces'
 
-	extensionFolders.forEach(extensionFolderName => {
-		const extensionPath = extensionsRootFolderPath + extensionFolderName
+export const getValidExtensionsPaths = (): string[] => {
+	const validExtensions = []
+
+	getExtensionsPaths().forEach(extensionPath => {
 		const isDirectory =
 			fs.existsSync(extensionPath) &&
 			fs.lstatSync(extensionPath).isDirectory()
@@ -30,24 +29,36 @@ export const getValidExtensions = (): string[] => {
 	return validExtensions
 }
 
+export const getExtensionsRootFolderPath = (): string => {
+	return './src/extensions/'
+}
+
+export const getExtensionsPaths = (): string[] => {
+	const extensionsRootFolderPath = getExtensionsRootFolderPath()
+	const extensionFolders = fs.readdirSync(extensionsRootFolderPath)
+
+	return extensionFolders.map(extensionFolder => {
+		return extensionsRootFolderPath + extensionFolder
+	})
+}
+
 export const getConfigurationAsJSON = (path: string) => {
 	const rawData = fs.readFileSync(path).toString()
 	return JSON.parse(rawData)
 }
 
-export interface IConfigurationFile {
-	name: string
-	version: string
-}
-
 export const isValidConfiguration = (
-	configuration: IConfigurationFile
+	configuration: IExtensionConfigurationFile
 ): boolean => {
-	if (configuration.name) {
-		return true
-	}
+	const requiredKeys = ['name', 'key', 'version']
 
-	return false
+	requiredKeys.forEach(key => {
+		if (!configuration[key]) {
+			return false
+		}
+	})
+
+	return true
 }
 
 export const getExtensionRouteFiles = (

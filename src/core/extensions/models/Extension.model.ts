@@ -4,11 +4,18 @@ import { IExtensionModel } from '../interfaces/Extension.interfaces'
 
 const ExtensionSchema = new mongoose.Schema(
 	{
-		name: {
+		key: {
 			type: String,
 			required: true,
 			unique: true,
 			lowercase: true
+		},
+		description: {
+			type: String
+		},
+		name: {
+			type: String,
+			required: true
 		},
 		version: {
 			type: String,
@@ -34,12 +41,12 @@ ExtensionSchema.methods.toJSON = function() {
 	return collectionObject
 }
 
-// Name uniqueness for proper error
+// Key uniqueness for proper error
 ExtensionSchema.post(
 	'save',
 	(error: any, doc: IExtensionModel, next: mongoose.HookNextFunction) => {
 		if (error.name === 'MongoError' && error.code === 11000) {
-			next(new Error('Name must be unique'))
+			next(new Error('Key must be unique'))
 		} else {
 			next(error)
 		}

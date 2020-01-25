@@ -1,5 +1,6 @@
 {
 	"name": "Test Extension",
-	"version": "1.0.0",
+	"key": "test_extension",
+	"version": "1.0.1",
 	"description": "This is a test extension"
 }
