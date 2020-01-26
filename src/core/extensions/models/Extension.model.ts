@@ -45,6 +45,7 @@ ExtensionSchema.methods.toJSON = function() {
 ExtensionSchema.post(
 	'save',
 	(error: any, doc: IExtensionModel, next: mongoose.HookNextFunction) => {
+		console.log(error)
 		if (error.name === 'MongoError' && error.code === 11000) {
 			next(new Error('Key must be unique'))
 		} else {
