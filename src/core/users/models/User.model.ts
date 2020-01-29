@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose'
 import { isEmail } from 'validator'
 
 import { IUserModel } from '../interfaces/User.interfaces'
+import { userGroupRef } from '../utils/schema.utils'
 
 const UserSchema = new mongoose.Schema(
 	{
@@ -16,7 +17,8 @@ const UserSchema = new mongoose.Schema(
 		password: {
 			type: String,
 			required: true
-		}
+		},
+		userGroups: [{ type: mongoose.Types.ObjectId, ref: userGroupRef }]
 	},
 	{ timestamps: true }
 )
