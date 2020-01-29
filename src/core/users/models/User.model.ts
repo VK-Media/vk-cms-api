@@ -27,21 +27,14 @@ UserSchema.path('email').validate((email: string) => {
 
 UserSchema.methods.toJSON = function() {
 	const userObject: IUserModel = this.toObject()
-	delete userObject.__v
 	delete userObject.password
-
-	const id = userObject._id
-	delete userObject._id
-	userObject.id = id
 
 	return userObject
 }
 
 UserSchema.methods.generateAuthToken = async function() {
 	const user: IUserModel = this
-	const token = sign({ _id: user._id.toString() }, process.env.JWT_SECRET)
-
-	return token
+	return sign({ _id: user._id.toString() }, process.env.JWT_SECRET)
 }
 
 // Hash password before saving

@@ -30,17 +30,6 @@ const ExtensionSchema = new mongoose.Schema(
 	{ timestamps: true }
 )
 
-ExtensionSchema.methods.toJSON = function() {
-	const collectionObject: IExtensionModel = this.toObject()
-	delete collectionObject.__v
-
-	const id = collectionObject._id
-	delete collectionObject._id
-	collectionObject.id = id
-
-	return collectionObject
-}
-
 // Key uniqueness for proper error
 ExtensionSchema.post(
 	'save',
