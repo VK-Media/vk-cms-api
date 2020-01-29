@@ -6,6 +6,7 @@ import CollectionRoutes from './core/collections/routes/Collection.routes'
 import ExtensionLoaderController from './core/extensions/controllers/ExtensionLoader.controller'
 import ExtensionRoutes from './core/extensions/routes/Extension.routes'
 import UserRoutes from './core/users/routes/User.routes'
+import UserGroupRoutes from './core/users/routes/UserGroup.routes'
 
 class App {
 	public app: express.Application
@@ -46,6 +47,7 @@ class App {
 
 	private initializeRoutes(): void {
 		const userRoutes: UserRoutes = new UserRoutes('users')
+		const userGroupRoutes: UserGroupRoutes = new UserGroupRoutes('userGroups')
 		const collectionRoutes: CollectionRoutes = new CollectionRoutes(
 			'collections'
 		)
@@ -54,6 +56,7 @@ class App {
 		)
 
 		userRoutes.routes(this.app)
+		userGroupRoutes.routes(this.app)
 		collectionRoutes.routes(this.app)
 		extensionRoutes.routes(this.app)
 	}
