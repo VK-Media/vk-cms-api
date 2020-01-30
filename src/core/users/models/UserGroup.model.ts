@@ -1,9 +1,9 @@
 import * as mongoose from 'mongoose'
 
 import { IUserGroupModel } from '../interfaces/UserGroup.interfaces'
-import { userGroupRef } from '../utils/schema.utils'
+import { userGroupName } from '../utils/schema.utils'
 
-const UserGroupSchema = new mongoose.Schema(
+export const UserGroupSchema = new mongoose.Schema(
 	{
 		name: {
 			type: String,
@@ -27,4 +27,4 @@ UserGroupSchema.post(
 	}
 )
 
-export default mongoose.model<IUserGroupModel>(userGroupRef, UserGroupSchema)
+export default mongoose.model<IUserGroupModel>(userGroupName, UserGroupSchema)

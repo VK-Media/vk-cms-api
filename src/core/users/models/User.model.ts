@@ -4,9 +4,9 @@ import * as mongoose from 'mongoose'
 import { isEmail } from 'validator'
 
 import { IUserModel } from '../interfaces/User.interfaces'
-import { userGroupRef } from '../utils/schema.utils'
+import { userGroupName, userName } from '../utils/schema.utils'
 
-const UserSchema = new mongoose.Schema(
+export const UserSchema = new mongoose.Schema(
 	{
 		email: {
 			type: String,
@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema(
 			type: String,
 			required: true
 		},
-		userGroups: [{ type: mongoose.Types.ObjectId, ref: userGroupRef }]
+		userGroups: [{ type: mongoose.Types.ObjectId, ref: userGroupName }]
 	},
 	{ timestamps: true }
 )
@@ -64,4 +64,4 @@ UserSchema.post(
 	}
 )
 
-export default mongoose.model<IUserModel>('User', UserSchema)
+export default mongoose.model<IUserModel>(userName, UserSchema)

@@ -3,6 +3,7 @@ import * as express from 'express'
 import { connect } from 'mongoose'
 
 import CollectionRoutes from './core/collections/routes/Collection.routes'
+import CollectionItemRoutes from './core/collections/routes/CollectionItem.routes'
 import ExtensionLoaderController from './core/extensions/controllers/ExtensionLoader.controller'
 import ExtensionRoutes from './core/extensions/routes/Extension.routes'
 import UserRoutes from './core/users/routes/User.routes'
@@ -51,6 +52,9 @@ class App {
 		const collectionRoutes: CollectionRoutes = new CollectionRoutes(
 			'collections'
 		)
+		const collectionItemRoutes: CollectionItemRoutes = new CollectionItemRoutes(
+			'collectionItems'
+		)
 		const extensionRoutes: ExtensionRoutes = new ExtensionRoutes(
 			'extensions'
 		)
@@ -58,6 +62,7 @@ class App {
 		userRoutes.routes(this.app)
 		userGroupRoutes.routes(this.app)
 		collectionRoutes.routes(this.app)
+		collectionItemRoutes.routes(this.app)
 		extensionRoutes.routes(this.app)
 	}
 }

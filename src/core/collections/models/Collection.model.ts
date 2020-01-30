@@ -1,7 +1,8 @@
 import { HookNextFunction, model, Schema } from 'mongoose'
 
 import { ICollectionModel } from '../interfaces/Collection.interfaces'
-import FieldSchema from '../schemas/Field.schema'
+import { collectionName } from '../utils/schema.utils'
+import { FieldTypeSchema } from './FieldType.model'
 
 const CollectionSchema = new Schema(
 	{
@@ -11,7 +12,7 @@ const CollectionSchema = new Schema(
 			unique: true,
 			lowercase: true
 		},
-		fields: [FieldSchema]
+		fieldTypes: [FieldTypeSchema]
 	},
 	{ timestamps: true }
 )
@@ -28,4 +29,4 @@ CollectionSchema.post(
 	}
 )
 
-export default model<ICollectionModel>('Collection', CollectionSchema)
+export default model<ICollectionModel>(collectionName, CollectionSchema)

@@ -1,8 +1,8 @@
 import { Document, Types } from 'mongoose'
-import { IFieldModel } from './Field.interfaces'
+import { IFieldTypeModel } from './FieldType.interfaces'
 
 export interface ICollectionModel extends Document {
 	_id: Types.ObjectId
 	name: string,
-	fields: IFieldModel[]
+	fieldTypes: IFieldTypeModel[]
 }
