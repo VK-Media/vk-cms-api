@@ -5,4 +5,5 @@ export interface IUserModel extends Document {
 	email: string
 	password: string
 	generateAuthToken: () => string
+	userGroups: Types.ObjectId[]
 }

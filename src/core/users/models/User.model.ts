@@ -1,12 +1,12 @@
 import { hashSync } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
-import * as mongoose from 'mongoose'
+import { HookNextFunction, model, Schema, Types } from 'mongoose'
 import { isEmail } from 'validator'
 
 import { IUserModel } from '../interfaces/User.interfaces'
 import { userGroupName, userName } from '../utils/schema.utils'
 
-export const UserSchema = new mongoose.Schema(
+export const UserSchema = new Schema(
 	{
 		email: {
 			type: String,
@@ -18,7 +18,7 @@ export const UserSchema = new mongoose.Schema(
 			type: String,
 			required: true
 		},
-		userGroups: [{ type: mongoose.Types.ObjectId, ref: userGroupName }]
+		userGroups: [{ type: Types.ObjectId, ref: userGroupName }]
 	},
 	{ timestamps: true }
 )
@@ -40,7 +40,7 @@ UserSchema.methods.generateAuthToken = async function() {
 }
 
 // Hash password before saving
-UserSchema.pre('save', function(this: IUserModel, next) {
+UserSchema.pre('save', function(this: IUserModel, next: HookNextFunction) {
 	const user: IUserModel = this
 	const saltCycles = 8
 	if (user.isModified('password')) {
@@ -55,7 +55,7 @@ UserSchema.pre('save', function(this: IUserModel, next) {
 // Email uniqueness for proper error
 UserSchema.post(
 	'save',
-	(error: any, doc: IUserModel, next: mongoose.HookNextFunction) => {
+	(error: any, doc: IUserModel, next: HookNextFunction) => {
 		if (error.name === 'MongoError' && error.code === 11000) {
 			next(new Error('Email must be unique'))
 		} else {
@@ -64,4 +64,4 @@ UserSchema.post(
 	}
 )
 
-export default mongoose.model<IUserModel>(userName, UserSchema)
+export default model<IUserModel>(userName, UserSchema)

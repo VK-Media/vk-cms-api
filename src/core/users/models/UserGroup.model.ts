@@ -1,15 +1,19 @@
-import * as mongoose from 'mongoose'
+import { HookNextFunction, model, Schema } from 'mongoose'
 
 import { IUserGroupModel } from '../interfaces/UserGroup.interfaces'
 import { userGroupName } from '../utils/schema.utils'
 
-export const UserGroupSchema = new mongoose.Schema(
+export const UserGroupSchema = new Schema(
 	{
 		name: {
 			type: String,
 			required: true,
 			unique: true,
 			lowercase: true
+		},
+		admin: {
+			type: Boolean,
+			default: false
 		}
 	},
 	{ timestamps: true }
@@ -18,7 +22,7 @@ export const UserGroupSchema = new mongoose.Schema(
 // Name uniqueness for proper error
 UserGroupSchema.post(
 	'save',
-	(error: any, doc: IUserGroupModel, next: mongoose.HookNextFunction) => {
+	(error: any, doc: IUserGroupModel, next: HookNextFunction) => {
 		if (error.name === 'MongoError' && error.code === 11000) {
 			next(new Error('Name must be unique'))
 		} else {
@@ -27,4 +31,4 @@ UserGroupSchema.post(
 	}
 )
 
-export default mongoose.model<IUserGroupModel>(userGroupName, UserGroupSchema)
+export default model<IUserGroupModel>(userGroupName, UserGroupSchema)

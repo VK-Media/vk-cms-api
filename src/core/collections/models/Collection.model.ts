@@ -2,6 +2,7 @@ import { HookNextFunction, model, Schema } from 'mongoose'
 
 import { ICollectionModel } from '../interfaces/Collection.interfaces'
 import { collectionName } from '../utils/schema.utils'
+import { CollectionAccessSchema } from './CollectionAccess.model'
 import { FieldTypeSchema } from './FieldType.model'
 
 const CollectionSchema = new Schema(
@@ -12,7 +13,37 @@ const CollectionSchema = new Schema(
 			unique: true,
 			lowercase: true
 		},
-		fieldTypes: [FieldTypeSchema]
+		fieldTypes: [FieldTypeSchema],
+		access: [CollectionAccessSchema],
+		api: {
+			create: {
+				type: Boolean,
+				default: false
+			},
+			read: {
+				type: Boolean,
+				default: true
+			},
+			update: {
+				type: Boolean,
+				default: false
+			},
+			delete: {
+				type: Boolean,
+				default: false
+			}
+		},
+		color: {
+			type: String,
+			default: '#cccccc',
+			lowercase: true,
+			minlength: 7,
+			maxlength: 7
+		},
+		icon: {
+			type: String,
+			default: 'file'
+		}
 	},
 	{ timestamps: true }
 )
