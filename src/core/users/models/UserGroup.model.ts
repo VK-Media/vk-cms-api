@@ -14,7 +14,8 @@ export const UserGroupSchema = new Schema(
 		admin: {
 			type: Boolean,
 			default: false
-		}
+		},
+		modules: [{ type: String, lowercase: true, unique: true }]
 	},
 	{ timestamps: true }
 )
