@@ -2,6 +2,7 @@ import { HookNextFunction, model, Schema } from 'mongoose'
 
 import { FieldTypes, IFieldTypeModel } from '../interfaces/FieldType.interfaces'
 import { fieldTypeName } from '../utils/schema.utils'
+import { FieldTypeAccessSchema } from './FieldTypeAccess.model'
 
 export const FieldTypeSchema = new Schema(
 	{
@@ -16,7 +17,8 @@ export const FieldTypeSchema = new Schema(
 			enum: Object.keys(FieldTypes),
 			default: FieldTypes.TEXT,
 			required: true
-		}
+		},
+		access: [FieldTypeAccessSchema]
 	},
 	{ timestamps: true }
 )
