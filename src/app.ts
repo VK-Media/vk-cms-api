@@ -43,6 +43,10 @@ class App {
 			useUnifiedTopology: true,
 			useCreateIndex: true,
 			useFindAndModify: false
+		}).then(() => {
+			console.log('Connected to database!')
+		}).catch(error => {
+			console.log(error)
 		})
 	}
 

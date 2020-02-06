@@ -37,7 +37,7 @@ class RestController extends RestControllerAbstract {
 				res.send(object)
 			} else {
 				res.status(404).send({
-					error: `No object with this the provided id: ${id}`
+					error: `No object with the provided id: ${id}`
 				})
 			}
 		} catch (error) {

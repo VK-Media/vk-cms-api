@@ -11,9 +11,6 @@ class CollectionRoutes extends RestRoutes {
 
 		app.route(`/${this.routeKey}/:id/fieldType`)
 			.post(this.controller.addFieldType)
-
-		app.route(`/${this.routeKey}/:id/items`)
-			.get(this.controller.getItems)
 	}
 }
 
