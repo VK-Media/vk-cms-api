@@ -8,8 +8,8 @@ export const CollectionItemSchema = new Schema(
 	{
 		collectionId: { type: Types.ObjectId, ref: collectionName, required: true },
 		fields: [{ type: Types.ObjectId, ref: fieldName }],
-		createdBy: { type: Types.ObjectId, ref: userName, required: true },
-		updatedBy: { type: Types.ObjectId, ref: userName, required: true }
+		createdBy: { type: Types.ObjectId, ref: userName },
+		updatedBy: { type: Types.ObjectId, ref: userName }
 	},
 	{ timestamps: true }
 )

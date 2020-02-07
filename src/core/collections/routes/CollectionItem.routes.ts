@@ -2,7 +2,12 @@ import { Application } from 'express'
 
 import RestRoutes from '../../rest/routes/Rest.routes'
 import CollectionItemController from '../controllers/CollectionItem.controller'
-import { validateCollection } from '../middleware/collectionItem.middleware'
+import {
+	createCollectionItem,
+	deleteCollectionItem,
+	readCollectionItem,
+	updateCollectionItem
+} from '../middleware/api.middleware'
 
 class CollectionItemRoutes extends RestRoutes {
 	protected controller = new CollectionItemController()
@@ -11,13 +16,13 @@ class CollectionItemRoutes extends RestRoutes {
 		super.additionalRoutes(app)
 
 		app.route(`/api/:collectionName`)
-			.get(validateCollection, this.controller.getAll)
-			.post(validateCollection, this.controller.create)
+			.get(readCollectionItem, this.controller.getAll)
+			.post(createCollectionItem, this.controller.create)
 
 		app.route(`/api/:collectionName/:id`)
-			.get(validateCollection, this.controller.getById)
-			.patch(validateCollection, this.controller.update)
-			.delete(validateCollection, this.controller.delete)
+			.get(readCollectionItem, this.controller.getById)
+			.patch(updateCollectionItem, this.controller.update)
+			.delete(deleteCollectionItem, this.controller.delete)
 	}
 }
 

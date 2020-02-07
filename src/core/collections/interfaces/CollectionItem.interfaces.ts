@@ -8,8 +8,8 @@ export interface ICollectionItemModel extends Document {
 	_id: Types.ObjectId
 	collectionId: Types.ObjectId
 	fields: IFieldModel[]
-	createdBy: Types.ObjectId
-	updatedBy: Types.ObjectId
+	createdBy?: Types.ObjectId
+	updatedBy?: Types.ObjectId
 }
 
 export interface ICollectionItemRequest extends Request {
