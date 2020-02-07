@@ -1,6 +1,6 @@
 import { model, Schema, Types } from 'mongoose'
 
-import { userName } from '../../users/utils/schema.utils'
+import { userName } from '../../authentication/utils/schema.utils'
 import { ICollectionItemModel } from '../interfaces/CollectionItem.interfaces'
 import { collectionItemName, collectionName, fieldName } from '../utils/schema.utils'
 

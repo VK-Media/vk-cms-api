@@ -1,6 +1,6 @@
 import { model, Schema, Types } from 'mongoose'
 
-import { userGroupName, userName } from '../../users/utils/schema.utils'
+import { userGroupName, userName } from '../../authentication/utils/schema.utils'
 import { IFieldTypeAccessModel } from '../interfaces/FieldTypeAccess.interfaces'
 import { fieldTypeAccessName } from '../utils/schema.utils'
 

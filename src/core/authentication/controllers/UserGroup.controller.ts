@@ -1,4 +1,5 @@
 import { Request, Response } from 'express'
+
 import RestController from '../../rest/controllers/Rest.controller'
 import UserGroupModel from '../models/UserGroup.model'
 

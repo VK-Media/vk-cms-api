@@ -1,5 +1,5 @@
 import { model, Schema, Types } from 'mongoose'
-import { userGroupName } from '../../users/utils/schema.utils'
+import { userGroupName } from '../../authentication/utils/schema.utils'
 
 import { ICollectionAccessModel } from '../interfaces/CollectionAccess.interfaces'
 import { collectionAccessName } from '../utils/schema.utils'
