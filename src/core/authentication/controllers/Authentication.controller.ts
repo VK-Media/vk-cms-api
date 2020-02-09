@@ -5,18 +5,6 @@ import UserModel from '../models/User.model'
 class AuthenticationController {
 	protected model = UserModel
 
-	public register = async (req: Request, res: Response) => {
-		try {
-			const user = new this.model(req.body)
-
-			await user.save()
-
-			res.status(201).send({ user, jwt: user.generateAuthToken() })
-		} catch (error) {
-			res.status(400).send({ error: error.message })
-		}
-	}
-
 	public login = async (req: Request, res: Response) => {
 		const user = await UserModel.findOne({
 			email: req.body.email

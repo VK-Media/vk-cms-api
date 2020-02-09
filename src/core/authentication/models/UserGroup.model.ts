@@ -40,7 +40,7 @@ UserGroupSchema.pre('remove', function(this: IUserGroupModel, next: HookNextFunc
 		{ userGroups: userGroup._id },
 		{ $pull: { userGroups: userGroup._id } },
 		{ multi: true },
-		next);
+		next)
 })
 
 UserGroupSchema.pre('remove', function(this: IUserGroupModel, next: HookNextFunction) {
@@ -50,7 +50,7 @@ UserGroupSchema.pre('remove', function(this: IUserGroupModel, next: HookNextFunc
 		{ access: userGroup._id },
 		{ $pull: { access: userGroup._id } },
 		{ multi: true },
-		next);
+		next)
 })
 
 export default model<IUserGroupModel>(userGroupName, UserGroupSchema)
