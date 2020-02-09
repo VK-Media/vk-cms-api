@@ -1,7 +1,7 @@
 import { HookNextFunction, model, Schema } from 'mongoose'
-
+import { collectionName } from '../../collections/utils/schema.utils'
 import { IUserGroupModel } from '../interfaces/UserGroup.interfaces'
-import { userGroupName } from '../utils/schema.utils'
+import { userGroupName, userName } from '../utils/schema.utils'
 
 export const UserGroupSchema = new Schema(
 	{
@@ -31,5 +31,26 @@ UserGroupSchema.post(
 		}
 	}
 )
+
+// Remove references on remove
+UserGroupSchema.pre('remove', function(this: IUserGroupModel, next: HookNextFunction) {
+	const userGroup = this
+
+	userGroup.model(userName).update(
+		{ userGroups: userGroup._id },
+		{ $pull: { userGroups: userGroup._id } },
+		{ multi: true },
+		next);
+})
+
+UserGroupSchema.pre('remove', function(this: IUserGroupModel, next: HookNextFunction) {
+	const userGroup = this
+
+	userGroup.model(collectionName).update(
+		{ access: userGroup._id },
+		{ $pull: { access: userGroup._id } },
+		{ multi: true },
+		next);
+})
 
 export default model<IUserGroupModel>(userGroupName, UserGroupSchema)
