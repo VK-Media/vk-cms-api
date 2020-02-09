@@ -1,6 +1,7 @@
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import { connect } from 'mongoose'
+import AuthenticationRoutes from './core/authentication/routes/Authentication.routes'
 
 import UserRoutes from './core/authentication/routes/User.routes'
 import UserGroupRoutes from './core/authentication/routes/UserGroup.routes'
@@ -51,7 +52,8 @@ class App {
 	}
 
 	private initializeRoutes(): void {
-		const userRoutes: UserRoutes = new UserRoutes('authentication')
+		const authenticationRoutes: AuthenticationRoutes = new AuthenticationRoutes('auth')
+		const userRoutes: UserRoutes = new UserRoutes('users')
 		const userGroupRoutes: UserGroupRoutes = new UserGroupRoutes('userGroups')
 		const collectionRoutes: CollectionRoutes = new CollectionRoutes(
 			'collections'
@@ -63,6 +65,7 @@ class App {
 			'extensions'
 		)
 
+		authenticationRoutes.routes(this.app)
 		userRoutes.routes(this.app)
 		userGroupRoutes.routes(this.app)
 		collectionRoutes.routes(this.app)

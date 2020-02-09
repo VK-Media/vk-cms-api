@@ -21,7 +21,7 @@ class UserController extends RestController {
 	public getById = async (req: Request, res: Response) => {
 		try {
 			const id = req.params.id
-			const object = await this.model.findById(id).populate('userGroups')
+			const object = await this.model.findById(id)
 
 			if (object) {
 				res.send(object)

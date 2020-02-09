@@ -30,12 +30,12 @@ const validateCollectionRequest = async (req: Request, res: Response, next: Next
 				next()
 			}
 		} else {
-			res.status(404).send({
+			return res.status(404).send({
 				error: `No collection with the provided name: ${collectionName}`
 			})
 		}
 	} catch (error) {
-		res.status(400).send({ error: error.message })
+		return res.status(400).send({ error: error.message })
 	}
 }
 
@@ -43,7 +43,7 @@ const checkCollectionAccess = (access: string, collection: ICollectionModel, res
 	if (collection.api[access]) {
 		return true
 	} else {
-		res.status(403).send({
+		return res.status(403).send({
 			error: `You don't have ${access} access to the collection '${collection.name}' via the API`
 		})
 	}

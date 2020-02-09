@@ -1,5 +1,6 @@
+import { Request } from 'express'
 import { Document, Types } from 'mongoose'
-import { ICollectionAccessModel } from './CollectionAccess.interfaces'
+import { IUserModel } from '../../authentication/interfaces/User.interfaces'
 import { IFieldTypeModel } from './FieldType.interfaces'
 
 export interface IApiAccess {
@@ -14,7 +15,12 @@ export interface ICollectionModel extends Document {
 	fieldTypes: IFieldTypeModel[]
 	api: IApiAccess
 	name: string
-	access: ICollectionAccessModel[]
+	access: Types.ObjectId[]
 	color: string
 	icon: string
+}
+
+export interface ICollectionRequest extends Request {
+	requestingUser: IUserModel
+	collection?: ICollectionModel
 }

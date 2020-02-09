@@ -2,7 +2,7 @@ import { hashSync } from 'bcrypt'
 import { sign } from 'jsonwebtoken'
 import { HookNextFunction, model, Schema, Types } from 'mongoose'
 import { isEmail } from 'validator'
-
+import { ICollectionModel } from '../../collections/interfaces/Collection.interfaces'
 import { IUserModel } from '../interfaces/User.interfaces'
 import { userGroupName, userName } from '../utils/schema.utils'
 
@@ -32,6 +32,26 @@ UserSchema.methods.toJSON = function() {
 	delete userObject.password
 
 	return userObject
+}
+
+UserSchema.methods.isAdmin = function() {
+	const userObject: IUserModel = this.toObject()
+
+	for (const userGroup of userObject.userGroups) {
+		if (userGroup.admin) return true
+	}
+
+	return false
+}
+
+UserSchema.methods.hasAccessToCollection = function(collection: ICollectionModel) {
+	const userObject: IUserModel = this.toObject()
+
+	for (const userGroup of userObject.userGroups) {
+		if (collection.access.includes(userGroup._id)) return true
+	}
+
+	return false
 }
 
 UserSchema.methods.generateAuthToken = async function() {

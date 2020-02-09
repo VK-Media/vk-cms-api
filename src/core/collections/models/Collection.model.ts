@@ -1,8 +1,7 @@
-import { HookNextFunction, model, Schema } from 'mongoose'
-
+import { HookNextFunction, model, Schema, Types } from 'mongoose'
+import { userGroupName } from '../../authentication/utils/schema.utils'
 import { ICollectionModel } from '../interfaces/Collection.interfaces'
 import { collectionName } from '../utils/schema.utils'
-import { CollectionAccessSchema } from './CollectionAccess.model'
 import { FieldTypeSchema } from './FieldType.model'
 
 const CollectionSchema = new Schema(
@@ -14,7 +13,7 @@ const CollectionSchema = new Schema(
 			lowercase: true
 		},
 		fieldTypes: [FieldTypeSchema],
-		access: [CollectionAccessSchema],
+		access: [{ type: Types.ObjectId, ref: userGroupName }],
 		api: {
 			create: {
 				type: Boolean,
