@@ -2,13 +2,14 @@ import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import { connect } from 'mongoose'
 import AuthenticationRoutes from './core/authentication/routes/Authentication.routes'
-
 import UserRoutes from './core/authentication/routes/User.routes'
 import UserGroupRoutes from './core/authentication/routes/UserGroup.routes'
 import CollectionRoutes from './core/collections/routes/Collection.routes'
 import CollectionItemRoutes from './core/collections/routes/CollectionItem.routes'
 import ExtensionLoaderController from './core/extensions/controllers/ExtensionLoader.controller'
 import ExtensionRoutes from './core/extensions/routes/Extension.routes'
+import ModuleRoutes from './core/modules/routes/Module.routes'
+import ModuleUtils from './core/modules/utils/Module.utils'
 
 class App {
 	public app: express.Application
@@ -36,6 +37,7 @@ class App {
 		})
 
 		this.extensionLoaderController.loadRoutesFromValidExtensions(this.app)
+		ModuleUtils.loadModules()
 	}
 
 	private mongoSetup(): void {
@@ -64,6 +66,7 @@ class App {
 		const extensionRoutes: ExtensionRoutes = new ExtensionRoutes(
 			'extensions'
 		)
+		const moduleRoutes: ModuleRoutes = new ModuleRoutes('modules')
 
 		authenticationRoutes.routes(this.app)
 		userRoutes.routes(this.app)
@@ -71,6 +74,7 @@ class App {
 		collectionRoutes.routes(this.app)
 		collectionItemRoutes.routes(this.app)
 		extensionRoutes.routes(this.app)
+		moduleRoutes.routes(this.app)
 	}
 }
 
