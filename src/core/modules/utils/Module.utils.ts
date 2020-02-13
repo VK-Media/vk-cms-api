@@ -10,6 +10,14 @@ class ModuleUtils {
 	public getModules = () => {
 		return this.modules
 	}
+
+	public getModuleById = (id: string): IModule | null => {
+		for(const module of this.modules){
+			if(module.id === id) return module
+		}
+
+		return null
+	}
 }
 
 export default new ModuleUtils()

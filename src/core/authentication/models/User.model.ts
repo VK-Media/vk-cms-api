@@ -3,6 +3,7 @@ import { sign } from 'jsonwebtoken'
 import { HookNextFunction, model, Schema, Types } from 'mongoose'
 import { isEmail } from 'validator'
 import { ICollectionModel } from '../../collections/interfaces/Collection.interfaces'
+import { IModule } from '../../modules/interfaces/Module.interfaces'
 import { IUserModel } from '../interfaces/User.interfaces'
 import { userGroupName, userName } from '../utils/schema.utils'
 
@@ -48,7 +49,17 @@ UserSchema.methods.hasAccessToCollection = function(collection: ICollectionModel
 	const userObject: IUserModel = this.toObject()
 
 	for (const userGroup of userObject.userGroups) {
-		if (collection.access.includes(userGroup._id)) return true
+		if (collection.access.includes(userGroup._id) || userGroup.admin) return true
+	}
+
+	return false
+}
+
+UserSchema.methods.hasAccessToModule = function(moduleId: string) {
+	const userObject: IUserModel = this.toObject()
+
+	for (const userGroup of userObject.userGroups) {
+		if (userGroup.modules.includes(moduleId) || userGroup.admin) return true
 	}
 
 	return false

@@ -12,5 +12,7 @@ export interface IUserModel extends Document {
 
 	hasAccessToCollection(collection: ICollectionModel): boolean
 
+	hasAccessToModule(moduleId: string): boolean
+
 	isAdmin(): boolean
 }
