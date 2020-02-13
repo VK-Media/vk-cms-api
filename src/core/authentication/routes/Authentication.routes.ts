@@ -1,14 +1,10 @@
 import { Application } from 'express'
-
+import RoutesAbstract from '../../routes/abstracts/Routes.abstract'
 import AuthenticationController from '../controllers/Authentication.controller'
 
-class AuthenticationRoutes {
+class AuthenticationRoutes extends RoutesAbstract {
 	protected controller = new AuthenticationController()
 	protected routeKey: string
-
-	constructor(routeKey: string) {
-		this.routeKey = routeKey
-	}
 
 	public routes(app: Application): void {
 		app.route(`/${this.routeKey}/login`)

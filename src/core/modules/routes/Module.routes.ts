@@ -1,14 +1,10 @@
 import * as express from 'express'
-
+import RoutesAbstract from '../../routes/abstracts/Routes.abstract'
 import ModuleController from '../controllers/Module.controller'
 
-class ModuleRoutes {
+class ModuleRoutes extends RoutesAbstract {
 	protected controller = new ModuleController()
 	protected routeKey: string
-
-	constructor(routeKey: string) {
-		this.routeKey = routeKey
-	}
 
 	public routes(app: express.Application) {
 		app.route(`/${this.routeKey}`).get(
