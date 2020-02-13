@@ -10,9 +10,6 @@ class ModuleUtils {
 	public getModules = () => {
 		return this.modules
 	}
-
-	public loadModules = () => {
-	}
 }
 
 export default new ModuleUtils()

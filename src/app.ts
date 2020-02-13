@@ -6,10 +6,10 @@ import UserRoutes from './core/authentication/routes/User.routes'
 import UserGroupRoutes from './core/authentication/routes/UserGroup.routes'
 import CollectionRoutes from './core/collections/routes/Collection.routes'
 import CollectionItemRoutes from './core/collections/routes/CollectionItem.routes'
+import { loadCoreConfigurations } from './core/configuration/utils/configuration.utils'
 import ExtensionLoaderController from './core/extensions/controllers/ExtensionLoader.controller'
 import ExtensionRoutes from './core/extensions/routes/Extension.routes'
 import ModuleRoutes from './core/modules/routes/Module.routes'
-import ModuleUtils from './core/modules/utils/Module.utils'
 
 class App {
 	public app: express.Application
@@ -36,8 +36,12 @@ class App {
 			next()
 		})
 
-		this.extensionLoaderController.loadRoutesFromValidExtensions(this.app)
-		ModuleUtils.loadModules()
+		// this.extensionLoaderController.loadRoutesFromValidExtensions(this.app)
+		loadCoreConfigurations().then(() => {
+			console.log('Core configurations are loaded')
+		}).catch(error => {
+			console.log(error)
+		})
 	}
 
 	private mongoSetup(): void {
@@ -54,27 +58,22 @@ class App {
 	}
 
 	private initializeRoutes(): void {
-		const authenticationRoutes: AuthenticationRoutes = new AuthenticationRoutes('auth')
-		const userRoutes: UserRoutes = new UserRoutes('users')
-		const userGroupRoutes: UserGroupRoutes = new UserGroupRoutes('userGroups')
-		const collectionRoutes: CollectionRoutes = new CollectionRoutes(
-			'collections'
-		)
-		const collectionItemRoutes: CollectionItemRoutes = new CollectionItemRoutes(
-			'collectionItems'
-		)
-		const extensionRoutes: ExtensionRoutes = new ExtensionRoutes(
-			'extensions'
-		)
-		const moduleRoutes: ModuleRoutes = new ModuleRoutes('modules')
+		const routesToLoad = {
+			'auth': AuthenticationRoutes,
+			'users': UserRoutes,
+			'userGroups': UserGroupRoutes,
+			'collections': CollectionRoutes,
+			'collectionItems': CollectionItemRoutes,
+			'extensions': ExtensionRoutes,
+			'modules': ModuleRoutes
+		}
 
-		authenticationRoutes.routes(this.app)
-		userRoutes.routes(this.app)
-		userGroupRoutes.routes(this.app)
-		collectionRoutes.routes(this.app)
-		collectionItemRoutes.routes(this.app)
-		extensionRoutes.routes(this.app)
-		moduleRoutes.routes(this.app)
+		for (const route in routesToLoad) {
+			if (routesToLoad.hasOwnProperty(route)) {
+				const routes = new routesToLoad[route](route)
+				routes.routes(this.app)
+			}
+		}
 	}
 }
 
