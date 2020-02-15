@@ -23,3 +23,6 @@ dist/
 
 # extensions
 src/extensions/
+
+# media
+media/

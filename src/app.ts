@@ -9,6 +9,7 @@ import CollectionItemRoutes from './core/collections/routes/CollectionItem.route
 import { loadCoreConfigurations } from './core/configuration/utils/configuration.utils'
 import ExtensionLoaderController from './core/extensions/controllers/ExtensionLoader.controller'
 import ExtensionRoutes from './core/extensions/routes/Extension.routes'
+import MediaRoutes from './core/media/routes/Media.routes'
 import ModuleRoutes from './core/modules/routes/Module.routes'
 
 class App {
@@ -65,7 +66,8 @@ class App {
 			'collections': CollectionRoutes,
 			'collectionItems': CollectionItemRoutes,
 			'extensions': ExtensionRoutes,
-			'modules': ModuleRoutes
+			'modules': ModuleRoutes,
+			'media': MediaRoutes
 		}
 
 		for (const route in routesToLoad) {

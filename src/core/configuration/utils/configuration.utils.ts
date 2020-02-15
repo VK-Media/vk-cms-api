@@ -28,11 +28,11 @@ const getCoreConfigurationPaths = (): string[] => {
 		const isDirectory = fs.existsSync(corePath) && fs.lstatSync(corePath).isDirectory()
 
 		if (isDirectory) {
-			const configurationFilePath = `${corePath}/configuration.ts`
+			const configurationFilePath = `${corePath}/Configuration.ts`
 			const hasConfigurationFile = fs.existsSync(configurationFilePath)
 
 			if (hasConfigurationFile) {
-				coreConfigurationPaths.push(`${corePath}/configuration`.replace('./src/', '../../../'))
+				coreConfigurationPaths.push(`${corePath}/Configuration`.replace('./src/', '../../../'))
 			}
 		}
 	}

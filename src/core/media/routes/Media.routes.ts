@@ -1,0 +1,26 @@
+import { Application } from 'express'
+import { jwtAuth } from '../../authentication/middleware/authentication.middleware'
+import { hasAccessToModule } from '../../modules/middleware/access.middleware'
+import RoutesAbstract from '../../routes/abstracts/Routes.abstract'
+import MediaController from '../controllers/Media.controller'
+
+class MediaRoutes extends RoutesAbstract {
+	protected controller = new MediaController()
+	protected moduleId: 'collection_module'
+
+	public routes(app: Application): void {
+		app.route(`/${this.routeKey}`)
+			.get(jwtAuth, hasAccessToModule(this.moduleId), this.controller.getMediaInPath)
+
+		app.route(`/${this.routeKey}/files`)
+			.post(jwtAuth, hasAccessToModule(this.moduleId), this.controller.uploadFile)
+
+		app.route(`/${this.routeKey}/folders`)
+			.post(jwtAuth, hasAccessToModule(this.moduleId), this.controller.createFolder)
+
+		app.route(`/${this.routeKey}/folders`)
+			.delete(jwtAuth, hasAccessToModule(this.moduleId), this.controller.deleteFolder)
+	}
+}
+
+export default MediaRoutes
