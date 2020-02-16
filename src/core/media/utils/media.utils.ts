@@ -2,7 +2,7 @@ import { Request } from 'express'
 import * as fs from 'fs'
 import * as multer from 'multer'
 import slugify from 'slugify'
-import { IFolder } from '../interfaces/Media.interfaces'
+import { IFolder, IMedia } from '../interfaces/Media.interfaces'
 
 const storage = multer.diskStorage({
 	destination(req, file, cb) {
@@ -36,6 +36,49 @@ const fileFilter = (req, file, cb) => {
 }
 
 export const upload = multer({ storage, limits, fileFilter })
+
+export const getMediaFromPath = (path: string) => {
+	const pathParts = ['./media']
+
+	if(path){
+		pathParts.push(path)
+	}
+
+	const mediaPath = pathParts.join('/')
+
+	const isDirectory = fs.existsSync(mediaPath) && fs.lstatSync(mediaPath).isDirectory()
+
+	if(isDirectory){
+		return getContentsFromPath(mediaPath)
+	}
+
+	throw new Error('The path is not a directory')
+}
+
+export const getContentsFromPath = (path: string) => {
+	const raw = fs.readdirSync(path)
+	const contents = []
+
+	for (const item of raw) {
+		const media: IMedia = {
+			name: item,
+			directory: fs.lstatSync(`${path}/${item}`).isDirectory()
+		}
+
+		if(media.directory){
+			media.items = fs.readdirSync(`${path}/${item}`).length
+		} else {
+			const split = item.split('.')
+			media.extension = split.pop()
+			media.baseName = split.join('')
+		}
+
+
+		contents.push(media)
+	}
+
+	return contents
+}
 
 export const getUniqueFilename = (destination: string, filename: string): string => {
 	let uniqueFilename = filename

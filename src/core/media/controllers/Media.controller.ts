@@ -2,11 +2,15 @@ import { Request, Response } from 'express'
 import * as fs from 'fs'
 import * as multer from 'multer'
 import { IFolder } from '../interfaces/Media.interfaces'
-import { getFolderFromRequest, upload } from '../utils/media.utils'
+import { getFolderFromRequest, getMediaFromPath, upload } from '../utils/media.utils'
 
 class MediaController {
 	public getMediaInPath = (req: Request, res: Response) => {
-
+		try {
+			res.send(getMediaFromPath(req.query.path))
+		} catch (error) {
+			res.status(400).send({ error: error.message })
+		}
 	}
 
 	public uploadFile = (req: Request, res: Response) => {
@@ -14,11 +18,11 @@ class MediaController {
 			if (error instanceof multer.MulterError) {
 				return res.status(400).send(error)
 			} else if (error) {
-				if(error.code === 'ENOENT'){
-					return res.status(404).send({error: 'The destination does not exist'})
+				if (error.code === 'ENOENT') {
+					return res.status(404).send({ error: 'The destination does not exist' })
 				}
 
-				return res.status(400).send({error: 'Something went wrong'})
+				return res.status(400).send({ error: 'Something went wrong' })
 			}
 
 			res.send({ message: 'The file has been uploaded!' })
