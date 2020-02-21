@@ -1,10 +1,12 @@
 import { HookNextFunction, model, Schema, Types } from 'mongoose'
-import { userGroupName } from '../../authentication/utils/schema.utils'
+import { userGroupName, userName } from '../../authentication/utils/schema.utils'
+import { ICollectionModel } from '../../collections/interfaces/Collection.interfaces'
+import { FieldSchema } from '../../fields/models/Field.model'
 import { FieldTypeSchema } from '../../fields/models/FieldType.model'
-import { ICollectionModel } from '../interfaces/Collection.interfaces'
-import { collectionName } from '../utils/schema.utils'
+import { ISingletonModel } from '../interfaces/Singleton.interfaces'
+import { singletonName } from '../utils/schema.utils'
 
-const CollectionSchema = new Schema(
+export const SingletonSchema = new Schema(
 	{
 		name: {
 			type: String,
@@ -12,13 +14,8 @@ const CollectionSchema = new Schema(
 			unique: true,
 			lowercase: true
 		},
-		fieldTypes: [FieldTypeSchema],
 		access: [{ type: Types.ObjectId, ref: userGroupName }],
 		api: {
-			create: {
-				type: Boolean,
-				default: false
-			},
 			read: {
 				type: Boolean,
 				default: true
@@ -42,13 +39,17 @@ const CollectionSchema = new Schema(
 		icon: {
 			type: String,
 			default: 'file'
-		}
+		},
+		fieldTypes: [FieldTypeSchema],
+		fields: [FieldSchema],
+		createdBy: { type: Types.ObjectId, ref: userName },
+		updatedBy: { type: Types.ObjectId, ref: userName }
 	},
 	{ timestamps: true }
 )
 
 // Name uniqueness for proper error
-CollectionSchema.post(
+SingletonSchema.post(
 	'save',
 	(error: any, doc: ICollectionModel, next: HookNextFunction) => {
 		if (error.name === 'MongoError' && error.code === 11000) {
@@ -59,4 +60,4 @@ CollectionSchema.post(
 	}
 )
 
-export default model<ICollectionModel>(collectionName, CollectionSchema)
+export default model<ISingletonModel>(singletonName, SingletonSchema)

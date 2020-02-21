@@ -1,7 +1,7 @@
 import { HookNextFunction, model, Schema } from 'mongoose'
 
 import { FieldTypes, IFieldTypeModel } from '../interfaces/FieldType.interfaces'
-import { fieldTypeName } from '../utils/schema.utils'
+import { fieldTypeName } from '../../collections/utils/schema.utils'
 import { FieldTypeAccessSchema } from './FieldTypeAccess.model'
 
 export const FieldTypeSchema = new Schema(

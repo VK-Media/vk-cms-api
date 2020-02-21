@@ -1,13 +1,13 @@
 import { Response } from 'express'
+import { IApiRequest } from '../../api/interfaces/Api.interfaces'
 
 import RestController from '../../rest/controllers/Rest.controller'
-import { ICollectionItemRequest } from '../interfaces/CollectionItem.interfaces'
 import CollectionItemModel from '../models/CollectionItem.model'
 
 class CollectionItemController extends RestController {
 	protected model = CollectionItemModel
 
-	public create = async (req: ICollectionItemRequest, res: Response) => {
+	public create = async (req: IApiRequest, res: Response) => {
 		try {
 			const collectionItem = new this.model(req.body)
 			collectionItem.collectionId = req.collection._id
@@ -20,7 +20,7 @@ class CollectionItemController extends RestController {
 		}
 	}
 
-	public getAll = async (req: ICollectionItemRequest, res: Response) => {
+	public getAll = async (req: IApiRequest, res: Response) => {
 		try {
 			const collectionItems = await this.model.find({ collectionId: req.collection._id })
 
@@ -30,7 +30,7 @@ class CollectionItemController extends RestController {
 		}
 	}
 
-	public getById = async (req: ICollectionItemRequest, res: Response) => {
+	public getById = async (req: IApiRequest, res: Response) => {
 		try {
 			const id = req.params.id
 			const collectionItem = await this.model.findById(id)
@@ -47,7 +47,7 @@ class CollectionItemController extends RestController {
 		}
 	}
 
-	public update = async (req: ICollectionItemRequest, res: Response) => {
+	public update = async (req: IApiRequest, res: Response) => {
 		try {
 			const collectionItem = await this.model.findById(req.params.id)
 
@@ -69,7 +69,7 @@ class CollectionItemController extends RestController {
 		}
 	}
 
-	public delete = async (req: ICollectionItemRequest, res: Response) => {
+	public delete = async (req: IApiRequest, res: Response) => {
 		try {
 			const id = req.params.id
 

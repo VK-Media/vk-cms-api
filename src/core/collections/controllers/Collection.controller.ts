@@ -1,9 +1,8 @@
 import { Response } from 'express'
-
+import FieldTypeModel from '../../fields/models/FieldType.model'
 import RestController from '../../rest/controllers/Rest.controller'
 import { ICollectionRequest } from '../interfaces/Collection.interfaces'
 import CollectionModel from '../models/Collection.model'
-import FieldTypeModel from '../models/FieldType.model'
 
 class CollectionController extends RestController {
 	protected model = CollectionModel

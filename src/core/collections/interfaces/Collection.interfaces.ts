@@ -1,9 +1,9 @@
 import { Request } from 'express'
 import { Document, Types } from 'mongoose'
 import { IUserModel } from '../../authentication/interfaces/User.interfaces'
-import { IFieldTypeModel } from './FieldType.interfaces'
+import { IFieldTypeModel } from '../../fields/interfaces/FieldType.interfaces'
 
-export interface IApiAccess {
+interface IApiAccess {
 	create: boolean
 	read: boolean
 	update: boolean

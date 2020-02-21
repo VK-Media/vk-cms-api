@@ -1,7 +1,54 @@
 import { NextFunction, Request, Response } from 'express'
-import { ICollectionModel } from '../interfaces/Collection.interfaces'
+import { ICollectionModel } from '../../collections/interfaces/Collection.interfaces'
+import CollectionModel from '../../collections/models/Collection.model'
+import { getCollectionByName } from '../../collections/utils/collection.utils'
+import SingletonModel from '../../singletons/models/Singleton.model'
+import { IApiRequest } from '../interfaces/Api.interfaces'
 
-import { getCollectionByName } from '../utils/collection.utils'
+export const objectExists = (type: string) => {
+	return async (req: Request, res: Response, next: NextFunction) => {
+		const model = apiModels(type)
+
+		if (model) {
+			try {
+				const object = await model.findOne({ name: req.params.name })
+
+				if (object) {
+					req['type'] = type
+					req[type] = object
+					return next()
+				}
+
+				return res.status(404).send({ error: `No item available with the given name` })
+			} catch (error) {
+				res.status(400).send({ error: error.message })
+			}
+		}
+
+		return res.status(404).send({ error: `The provided type '${type}' is not a recognized type of the API.` })
+	}
+}
+
+export const apiAccess = (accessType: string) => {
+	return (req: IApiRequest, res: Response, next: NextFunction) => {
+		if (req[req.type].api[accessType]) {
+			return next()
+		}
+
+		return res.status(403).send({ error: `The API does not allow you access to the object with the given name` })
+	}
+}
+
+export const apiModels = (type: string) => {
+	const types = {
+		collection: CollectionModel,
+		singleton: SingletonModel
+	}
+
+	if (type && type in types) return types[type]
+
+	return null
+}
 
 export const createCollectionItem = async (req: Request, res: Response, next: NextFunction) => {
 	await validateCollectionRequest(req, res, next, 'create')

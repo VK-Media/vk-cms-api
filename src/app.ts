@@ -1,16 +1,17 @@
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import { connect } from 'mongoose'
+import ApiRoutes from './core/api/routes/Api.routes'
 import AuthenticationRoutes from './core/authentication/routes/Authentication.routes'
 import UserRoutes from './core/authentication/routes/User.routes'
 import UserGroupRoutes from './core/authentication/routes/UserGroup.routes'
 import CollectionRoutes from './core/collections/routes/Collection.routes'
-import CollectionItemRoutes from './core/collections/routes/CollectionItem.routes'
 import { loadCoreConfigurations } from './core/configuration/utils/configuration.utils'
 import ExtensionLoaderController from './core/extensions/controllers/ExtensionLoader.controller'
 import ExtensionRoutes from './core/extensions/routes/Extension.routes'
 import MediaRoutes from './core/media/routes/Media.routes'
 import ModuleRoutes from './core/modules/routes/Module.routes'
+import SingletonRoutes from './core/singletons/routes/Singleton.routes'
 
 class App {
 	public app: express.Application
@@ -60,14 +61,15 @@ class App {
 
 	private initializeRoutes(): void {
 		const routesToLoad = {
+			'api': ApiRoutes,
 			'auth': AuthenticationRoutes,
 			'users': UserRoutes,
 			'userGroups': UserGroupRoutes,
 			'collections': CollectionRoutes,
-			'collectionItems': CollectionItemRoutes,
 			'extensions': ExtensionRoutes,
 			'modules': ModuleRoutes,
-			'media': MediaRoutes
+			'media': MediaRoutes,
+			'singletons': SingletonRoutes
 		}
 
 		for (const route in routesToLoad) {
