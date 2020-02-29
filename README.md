@@ -1,8 +1,4 @@
----
-description: This page gives a brief overview of what you can do with VK CMS
----
-
-# Introduction
+# VK CMS
 
 ### Description
 
