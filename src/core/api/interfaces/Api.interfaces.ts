@@ -3,7 +3,7 @@ import { ICollectionModel } from '../../collections/interfaces/Collection.interf
 import { ISingletonModel } from '../../singletons/interfaces/Singleton.interfaces'
 
 export interface IApiRequest extends Request {
-	collection?: ICollectionModel
-	singleton?: ISingletonModel
-	type: string
+    collection?: ICollectionModel
+    singleton?: ISingletonModel
+    type: string
 }

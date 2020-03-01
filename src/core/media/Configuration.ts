@@ -2,13 +2,13 @@ import { IConfiguration } from '../configuration/interfaces/Configuration.interf
 import ModuleUtils from '../modules/utils/Module.utils'
 
 class Configuration implements IConfiguration {
-	public addModules(): void {
-		ModuleUtils.addModule({
-			id: 'media_module',
-			name: 'Media Module',
-			description: 'A module for managing files and folders'
-		})
-	}
+    public addModules(): void {
+        ModuleUtils.addModule({
+            id: 'media_module',
+            name: 'Media Module',
+            description: 'A module for managing files and folders'
+        })
+    }
 }
 
 export default Configuration

@@ -1,7 +1,7 @@
 {
-	"name": "express-typescript-api-template",
+	"name": "vk-cms-api",
 	"version": "1.0.0",
-	"description": "A template for creating Express TypeScript API's for VK Media",
+	"description": "The offical API for VK Media's Content Management System",
 	"repository": {
 		"url": "https://github.com/VK-Media/vk-cms-api"
 	},

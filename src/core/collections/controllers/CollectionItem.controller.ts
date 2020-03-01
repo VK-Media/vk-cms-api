@@ -5,81 +5,81 @@ import RestController from '../../rest/controllers/Rest.controller'
 import CollectionItemModel from '../models/CollectionItem.model'
 
 class CollectionItemController extends RestController {
-	protected model = CollectionItemModel
+    protected model = CollectionItemModel
 
-	public create = async (req: IApiRequest, res: Response) => {
-		try {
-			const collectionItem = new this.model(req.body)
-			collectionItem.collectionId = req.collection._id
+    public create = async (req: IApiRequest, res: Response) => {
+        try {
+            const collectionItem = new this.model(req.body)
+            collectionItem.collectionId = req.collection._id
 
-			await collectionItem.save()
+            await collectionItem.save()
 
-			res.status(201).send(collectionItem)
-		} catch (error) {
-			res.status(400).send({ error: error.message })
-		}
-	}
+            res.status(201).send(collectionItem)
+        } catch (error) {
+            res.status(400).send({ error: error.message })
+        }
+    }
 
-	public getAll = async (req: IApiRequest, res: Response) => {
-		try {
-			const collectionItems = await this.model.find({ collectionId: req.collection._id })
+    public getAll = async (req: IApiRequest, res: Response) => {
+        try {
+            const collectionItems = await this.model.find({ collectionId: req.collection._id })
 
-			res.send(collectionItems)
-		} catch (error) {
-			res.status(400).send({ error: error.message })
-		}
-	}
+            res.send(collectionItems)
+        } catch (error) {
+            res.status(400).send({ error: error.message })
+        }
+    }
 
-	public getById = async (req: IApiRequest, res: Response) => {
-		try {
-			const id = req.params.id
-			const collectionItem = await this.model.findById(id)
+    public getById = async (req: IApiRequest, res: Response) => {
+        try {
+            const id = req.params.id
+            const collectionItem = await this.model.findById(id)
 
-			if (collectionItem) {
-				res.send(collectionItem)
-			} else {
-				res.status(404).send({
-					error: `No item with the provided id: ${id}`
-				})
-			}
-		} catch (error) {
-			res.status(400).send({ error: error.message })
-		}
-	}
+            if (collectionItem) {
+                res.send(collectionItem)
+            } else {
+                res.status(404).send({
+                    error: `No item with the provided id: ${id}`
+                })
+            }
+        } catch (error) {
+            res.status(400).send({ error: error.message })
+        }
+    }
 
-	public update = async (req: IApiRequest, res: Response) => {
-		try {
-			const collectionItem = await this.model.findById(req.params.id)
+    public update = async (req: IApiRequest, res: Response) => {
+        try {
+            const collectionItem = await this.model.findById(req.params.id)
 
-			for (const key in req.body) {
-				if (Object.hasOwnProperty.call(req.body, key)) {
-					const value = req.body[key]
+            for (const key in req.body) {
+                if (Object.hasOwnProperty.call(req.body, key)) {
+                    const value = req.body[key]
 
-					if (value) {
-						collectionItem[key] = value
-					}
-				}
-			}
+                    if (value) {
+                        collectionItem[key] = value
+                    }
+                }
+            }
 
-			await collectionItem.save()
+            await collectionItem.save()
 
-			res.send(collectionItem)
-		} catch (error) {
-			res.status(400).send({ error: error.message })
-		}
-	}
+            res.send(collectionItem)
+        } catch (error) {
+            res.status(400).send({ error: error.message })
+        }
+    }
 
-	public delete = async (req: IApiRequest, res: Response) => {
-		try {
-			const id = req.params.id
+    public delete = async (req: IApiRequest, res: Response) => {
+        try {
+            const id = req.params.id
 
-			await this.model.findByIdAndRemove(id)
+            await this.model.findByIdAndRemove(id)
 
-			res.send({ id })
-		} catch (error) {
-			res.status(400).send({ error: error.message })
-		}
-	}
+            res.send({ id })
+        } catch (error) {
+            res.status(400).send({ error: error.message })
+        }
+    }
 }
 
 export default CollectionItemController

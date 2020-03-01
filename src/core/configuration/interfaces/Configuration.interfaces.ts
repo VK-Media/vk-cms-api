@@ -1,3 +1,3 @@
 export interface IConfiguration {
-	addModules?: () => void
+    addModules?: () => void
 }

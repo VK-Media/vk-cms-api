@@ -4,80 +4,80 @@ import { Document, Model } from 'mongoose'
 import RestControllerAbstract from '../abstracts/RestController.abstract'
 
 class RestController extends RestControllerAbstract {
-	protected model: Model<Document>
+    protected model: Model<Document>
 
-	public create = async (req: Request, res: Response) => {
-		try {
-			const object = new this.model(req.body)
+    public create = async (req: Request, res: Response) => {
+        try {
+            const object = new this.model(req.body)
 
-			await object.save()
+            await object.save()
 
-			res.status(201).send(object)
-		} catch (error) {
-			res.status(400).send({ error: error.message })
-		}
-	}
+            res.status(201).send(object)
+        } catch (error) {
+            res.status(400).send({ error: error.message })
+        }
+    }
 
-	public getAll = async (req: Request, res: Response) => {
-		try {
-			const objects = await this.model.find()
+    public getAll = async (req: Request, res: Response) => {
+        try {
+            const objects = await this.model.find()
 
-			res.send(objects)
-		} catch (error) {
-			res.status(400).send({ error: error.message })
-		}
-	}
+            res.send(objects)
+        } catch (error) {
+            res.status(400).send({ error: error.message })
+        }
+    }
 
-	public getById = async (req: Request, res: Response) => {
-		try {
-			const id = req.params.id
-			const object = await this.model.findById(id)
+    public getById = async (req: Request, res: Response) => {
+        try {
+            const id = req.params.id
+            const object = await this.model.findById(id)
 
-			if (object) {
-				res.send(object)
-			} else {
-				res.status(404).send({
-					error: `No object with the provided id: ${id}`
-				})
-			}
-		} catch (error) {
-			res.status(400).send({ error: error.message })
-		}
-	}
+            if (object) {
+                res.send(object)
+            } else {
+                res.status(404).send({
+                    error: `No object with the provided id: ${id}`
+                })
+            }
+        } catch (error) {
+            res.status(400).send({ error: error.message })
+        }
+    }
 
-	public update = async (req: Request, res: Response) => {
-		try {
-			const object = await this.model.findById(req.params.id)
+    public update = async (req: Request, res: Response) => {
+        try {
+            const object = await this.model.findById(req.params.id)
 
-			for (const key in req.body) {
-				if (Object.hasOwnProperty.call(req.body, key)) {
-					const value = req.body[key]
+            for (const key in req.body) {
+                if (Object.hasOwnProperty.call(req.body, key)) {
+                    const value = req.body[key]
 
-					if (value) {
-						object[key] = value
-					}
-				}
-			}
+                    if (value) {
+                        object[key] = value
+                    }
+                }
+            }
 
-			await object.save()
+            await object.save()
 
-			res.send(object)
-		} catch (error) {
-			res.status(400).send({ error: error.message })
-		}
-	}
+            res.send(object)
+        } catch (error) {
+            res.status(400).send({ error: error.message })
+        }
+    }
 
-	public delete = async (req: Request, res: Response) => {
-		try {
-			const id = req.params.id
+    public delete = async (req: Request, res: Response) => {
+        try {
+            const id = req.params.id
 
-			await this.model.findByIdAndRemove(id)
+            await this.model.findByIdAndRemove(id)
 
-			res.send({ id })
-		} catch (error) {
-			res.status(400).send({ error: error.message })
-		}
-	}
+            res.send({ id })
+        } catch (error) {
+            res.status(400).send({ error: error.message })
+        }
+    }
 }
 
 export default RestController

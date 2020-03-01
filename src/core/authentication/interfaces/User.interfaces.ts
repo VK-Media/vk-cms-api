@@ -3,16 +3,16 @@ import { ICollectionModel } from '../../collections/interfaces/Collection.interf
 import { IUserGroupModel } from './UserGroup.interfaces'
 
 export interface IUserModel extends Document {
-	_id: Types.ObjectId
-	email: string
-	password: string
-	userGroups: IUserGroupModel[]
+    _id: Types.ObjectId
+    email: string
+    password: string
+    userGroups: IUserGroupModel[]
 
-	generateAuthToken(): Promise<string>
+    generateAuthToken(): Promise<string>
 
-	hasAccessToCollection(collection: ICollectionModel): boolean
+    hasAccessToCollection(collection: ICollectionModel): boolean
 
-	hasAccessToModule(moduleId: string): boolean
+    hasAccessToModule(moduleId: string): boolean
 
-	isAdmin(): boolean
+    isAdmin(): boolean
 }
