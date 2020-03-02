@@ -1,5 +1,6 @@
 import { IConfiguration } from '../configuration/interfaces/Configuration.interfaces'
 import ModuleUtils from '../modules/utils/Module.utils'
+import { createAdminUserGroupIfNotExists } from './utils/userGroup.utils'
 
 class Configuration implements IConfiguration {
     public addModules(): void {
@@ -14,6 +15,10 @@ class Configuration implements IConfiguration {
             name: 'User Group Module',
             description: 'A module for managing user groups'
         })
+    }
+
+    public additionalConfiguration(): void {
+        createAdminUserGroupIfNotExists()
     }
 }
 

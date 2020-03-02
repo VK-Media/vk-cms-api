@@ -11,6 +11,10 @@ export const loadCoreConfigurations = async () => {
         if (typeof configurationModule.addModules === 'function') {
             configurationModule.addModules()
         }
+
+        if (typeof configurationModule.additionalConfiguration === 'function') {
+            configurationModule.additionalConfiguration()
+        }
     }
 }
 
