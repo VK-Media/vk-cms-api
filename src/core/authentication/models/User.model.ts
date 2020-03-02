@@ -3,11 +3,18 @@ import { sign } from 'jsonwebtoken'
 import { HookNextFunction, model, Schema, Types } from 'mongoose'
 import { isEmail } from 'validator'
 import { ICollectionModel } from '../../collections/interfaces/Collection.interfaces'
+import { Languages } from '../../localization/interfaces/Localization.interfaces'
 import { IUserModel } from '../interfaces/User.interfaces'
 import { userGroupName, userName } from '../utils/schema.utils'
 
 export const UserSchema = new Schema(
     {
+        firstName: {
+            type: String
+        },
+        lastName: {
+            type: String
+        },
         email: {
             type: String,
             required: true,
@@ -17,6 +24,13 @@ export const UserSchema = new Schema(
         password: {
             type: String,
             required: true
+        },
+        settings: {
+            language: {
+                type: String,
+                enum: Object.keys(Languages),
+                default: Languages.DANISH
+            }
         },
         userGroups: [{ type: Types.ObjectId, ref: userGroupName }]
     },
