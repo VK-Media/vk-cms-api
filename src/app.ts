@@ -5,6 +5,7 @@ import ApiRoutes from './core/api/routes/Api.routes'
 import AuthenticationRoutes from './core/authentication/routes/Authentication.routes'
 import UserRoutes from './core/authentication/routes/User.routes'
 import UserGroupRoutes from './core/authentication/routes/UserGroup.routes'
+import RedisClient from './core/cache/utils/RedisClient'
 import CollectionRoutes from './core/collections/routes/Collection.routes'
 import { loadCoreConfigurations } from './core/configuration/utils/configuration.utils'
 import ExtensionLoaderController from './core/extensions/controllers/ExtensionLoader.controller'
@@ -44,6 +45,9 @@ class App {
         }).catch(error => {
             console.log(error)
         })
+
+        // TODO: Clearing alle cache on startup
+        RedisClient.clear()
     }
 
     private mongoSetup(): void {

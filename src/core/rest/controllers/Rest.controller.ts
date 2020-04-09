@@ -1,5 +1,6 @@
 import { Request, Response } from 'express'
 import { Document, Model } from 'mongoose'
+import RedisClient from '../../cache/utils/RedisClient'
 
 import RestControllerAbstract from '../abstracts/RestController.abstract'
 
@@ -22,6 +23,7 @@ class RestController extends RestControllerAbstract {
         try {
             const objects = await this.model.find()
 
+            RedisClient.set(req.route.path, objects);
             res.send(objects)
         } catch (error) {
             res.status(400).send({ error: error.message })

@@ -1,5 +1,6 @@
 import { Application } from 'express'
 import { jwtAuth } from '../../authentication/middleware/authentication.middleware'
+import RedisClient from '../../cache/utils/RedisClient'
 import { hasAccessToModule } from '../../modules/middleware/access.middleware'
 import ModuleRestRoutesAbstract from '../abstracts/ModuleRestRoutes.abstract'
 import RestControllerAbstract from '../abstracts/RestController.abstract'
@@ -13,7 +14,7 @@ class ModuleRestRoutes extends ModuleRestRoutesAbstract {
         this.additionalRoutes(app)
 
         app.route(`/${this.routeKey}`)
-            .get(jwtAuth, hasAccessToModule(this.moduleId), this.controller.getAll)
+            .get(jwtAuth, RedisClient.get, hasAccessToModule(this.moduleId), this.controller.getAll)
             .post(jwtAuth, hasAccessToModule(this.moduleId), this.controller.create)
 
         app.route(`/${this.routeKey}/:id`)

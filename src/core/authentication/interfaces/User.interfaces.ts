@@ -1,5 +1,6 @@
 import { Document, Types } from 'mongoose'
 import { ICollectionModel } from '../../collections/interfaces/Collection.interfaces'
+import { Languages } from '../../localization/interfaces/Localization.interfaces'
 import { IUserGroupModel } from './UserGroup.interfaces'
 
 export interface IUserModel extends Document {
@@ -7,6 +8,9 @@ export interface IUserModel extends Document {
     email: string
     password: string
     userGroups: IUserGroupModel[]
+    firstName?: string
+    lastName?: string
+    settings: IUserSettings
 
     generateAuthToken(): Promise<string>
 
@@ -15,4 +19,8 @@ export interface IUserModel extends Document {
     hasAccessToModule(moduleId: string): boolean
 
     isAdmin(): boolean
+}
+
+export interface IUserSettings {
+    language: Languages
 }

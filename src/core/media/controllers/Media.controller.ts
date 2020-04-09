@@ -7,7 +7,13 @@ import { getFolderFromRequest, getMediaFromPath, upload } from '../utils/media.u
 class MediaController {
     public getMediaInPath = (req: Request, res: Response) => {
         try {
-            res.send(getMediaFromPath(req.query.path))
+            const path = req.query.path
+
+            if (typeof path === 'string') {
+                return res.send(getMediaFromPath(path))
+            }
+
+            return res.status(400).send({ error: 'Path is not a string' })
         } catch (error) {
             res.status(400).send({ error: error.message })
         }
