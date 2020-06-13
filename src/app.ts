@@ -1,6 +1,7 @@
 import * as bodyParser from 'body-parser'
 import * as express from 'express'
 import { connect } from 'mongoose'
+import * as path from 'path'
 import ApiRoutes from './core/api/routes/Api.routes'
 import AuthenticationRoutes from './core/authentication/routes/Authentication.routes'
 import UserRoutes from './core/authentication/routes/User.routes'
@@ -38,6 +39,8 @@ class App {
             res.header('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE')
             next()
         })
+
+        this.app.use(express.static(path.join(__dirname, '..', 'media')))
 
         // this.extensionLoaderController.loadRoutesFromValidExtensions(this.app)
         loadCoreConfigurations().then(() => {

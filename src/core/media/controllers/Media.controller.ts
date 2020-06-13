@@ -13,7 +13,7 @@ class MediaController {
                 return res.send(getMediaFromPath(path))
             }
 
-            return res.status(400).send({ error: 'Path is not a string' })
+            return res.send(getMediaFromPath('/'))
         } catch (error) {
             res.status(400).send({ error: error.message })
         }

@@ -14,7 +14,7 @@ class ModuleRestRoutes extends ModuleRestRoutesAbstract {
         this.additionalRoutes(app)
 
         app.route(`/${this.routeKey}`)
-            .get(jwtAuth, RedisClient.get, hasAccessToModule(this.moduleId), this.controller.getAll)
+            .get(jwtAuth, hasAccessToModule(this.moduleId), this.controller.getAll)
             .post(jwtAuth, hasAccessToModule(this.moduleId), this.controller.create)
 
         app.route(`/${this.routeKey}/:id`)

@@ -19,16 +19,6 @@ class CollectionController extends RestController {
         }
     }
 
-    public getAll = async (req: ICollectionRequest, res: Response) => {
-        try {
-            const objects = await this.model.find()
-
-            res.send(objects)
-        } catch (error) {
-            res.status(400).send({ error: error.message })
-        }
-    }
-
     public getById = async (req: ICollectionRequest, res: Response) => {
         res.send(req.collection)
     }

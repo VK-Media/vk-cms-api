@@ -20,11 +20,20 @@ class RestController extends RestControllerAbstract {
     }
 
     public getAll = async (req: Request, res: Response) => {
-        try {
-            const objects = await this.model.find()
+        let limit = 10
+        let offset = 0
 
-            RedisClient.set(req.route.path, objects);
-            res.send(objects)
+        if (typeof req.query.limit === 'string' && typeof req.query.offset === 'string') {
+            limit = parseInt(req.query.limit, 10)
+            offset = parseInt(req.query.offset, 10)
+        }
+
+        try {
+            const count = await this.model.find().count()
+            const objects = await this.model.find().skip(offset).limit(limit)
+
+            RedisClient.set(req.route.path, objects)
+            res.send({ objects, count })
         } catch (error) {
             res.status(400).send({ error: error.message })
         }
