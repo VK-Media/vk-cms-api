@@ -29,7 +29,7 @@ class RestController extends RestControllerAbstract {
         }
 
         try {
-            const count = await this.model.find().count()
+            const count = await this.model.find().countDocuments()
             const objects = await this.model.find().skip(offset).limit(limit)
 
             RedisClient.set(req.route.path, objects)

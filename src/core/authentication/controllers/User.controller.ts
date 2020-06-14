@@ -1,9 +1,9 @@
 import { Request, Response } from 'express'
 import RedisClient from '../../cache/utils/RedisClient'
-
 import RestController from '../../rest/controllers/Rest.controller'
 import { IAuthenticatedRequest } from '../interfaces/Authentication.interfaces'
 import UserModel from '../models/User.model'
+import UserGroupModel from '../models/UserGroup.model'
 
 class UserController extends RestController {
     protected model = UserModel
@@ -25,6 +25,7 @@ class UserController extends RestController {
         let offset = 0
 
         const requestingUserId = req.requestingUser._id
+        const isRequestingUserAdmin = req.requestingUser.isAdmin()
 
         if (typeof req.query.limit === 'string' && typeof req.query.offset === 'string') {
             limit = parseInt(req.query.limit, 10)
@@ -32,8 +33,25 @@ class UserController extends RestController {
         }
 
         try {
-            const count = await this.model.find({_id: {$ne: requestingUserId}}).count()
-            const objects = await this.model.find({_id: {$ne: requestingUserId}}).skip(offset).limit(limit)
+            const searchParameters = {
+                _id: { $ne: requestingUserId }
+            }
+
+            if (!isRequestingUserAdmin) {
+                const adminUserGroupIds = []
+                const adminUserGroups = await UserGroupModel.find({ admin: true })
+
+                for (const userGroup of adminUserGroups) {
+                    adminUserGroupIds.push(userGroup._id)
+                }
+
+                if (adminUserGroupIds.length) {
+                    searchParameters['userGroups'] = { $not: { $all: adminUserGroupIds } }
+                }
+            }
+
+            const count = await this.model.find(searchParameters).countDocuments()
+            const objects = await this.model.find(searchParameters).skip(offset).limit(limit)
 
             RedisClient.set(req.route.path, objects)
             res.send({ objects, count })
